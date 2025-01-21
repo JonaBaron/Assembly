@@ -1,0 +1,40 @@
+ARM GAS  lab3.s 			page 1
+
+
+   1              	.syntax unified
+   2              	.cpu cortex-m4
+   3              	.thumb
+   4 0000 00040020 		.word 0x20000400
+   5 0004 ED000080 		.word 0x800000ed
+   6 0008 00000000 		.space 0xe4
+   6      00000000 
+   6      00000000 
+   6      00000000 
+   6      00000000 
+   7              	.data
+   8              	@ declare your data here
+   9 0000 03020401 	array: .byte 3,2,4,1,5,6
+   9      0506
+  10              	
+  11              	@ 3 rows and 2 columns
+  12              	@ array = 3 2
+  13              		@ 4 1
+  14              		@ 5 6
+  15              	
+  16              	.text
+  17              	start:
+  18              	
+  19 00ec 4FF00201 	mov r1, #2  @total no of columns
+  20 00f0 4FF00002 	mov r2, #0  @row index
+  21 00f4 4FF00003 	mov r3, #0   @column index 
+  22              	
+  23 00f8 034C     	ldr r4, =array 
+  24              	
+  25 00fa 01FB02F2 	mul r2,r1,r2
+  26 00fe 02EB0300 	add r0, r2, r3 
+  27              	
+  28 0102 255C     	ldrb r5, [r4,r0]
+  29              	
+  30 0104 FEE7     	stop: b stop
+  31 0106 00000000 	
+  31      0000

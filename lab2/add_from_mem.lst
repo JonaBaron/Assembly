@@ -1,0 +1,36 @@
+ARM GAS  add_from_mem.s 			page 1
+
+
+   1              	.syntax unified
+   2              	.cpu cortex-m4
+   3              	.thumb
+   4              	
+   5 0000 00040020 	.word 0x20000400
+   6 0004 ED000080 	.word 0x800000ed
+   7 0008 00000000 	.space 0xe4
+   7      00000000 
+   7      00000000 
+   7      00000000 
+   7      00000000 
+   8              	
+   9              	.data
+  10 0000 01       	mick: .byte 0x01
+  11 0001 02       	keith: .byte 0x02 
+  12 0002 00       	result: .space 0x01 
+  13              	
+  14              	
+  15              	
+  16              	.text
+  17              	start:
+  18 00ec 0448     		ldr r0, =mick 
+  19 00ee 0178     		ldrb r1, [r0] 
+  20 00f0 0448     		ldr r0, =keith 
+  21 00f2 0278     		ldrb r2, [r0] 
+  22 00f4 02EB0103 		add r3, r2, r1 
+  23 00f8 0348     		ldr r0, =result 
+  24 00fa 0370     		strb r3, [r0] 
+  25 00fc FEE7     	stop: b stop
+  26 00fe 00000000 	
+  26      00000100 
+  26      00000200 
+  26      0000

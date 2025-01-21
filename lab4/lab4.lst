@@ -1,0 +1,64 @@
+ARM GAS  lab4.s 			page 1
+
+
+   1              	.syntax unified
+   2              	.cpu cortex-m4
+   3              	.thumb
+   4              	
+   5              	.data
+   6 0000 6A754D70 	message: .ascii "juMping JAck flaSh #1"
+   6      696E6720 
+   6      4A41636B 
+   6      20666C61 
+   6      53682023 
+   7 0015 00       	lastchar: .byte 0    
+   8              	
+   9              	.text
+  10              	_start:
+  11              	
+  12 0000 A0EB0000 	sub r0,r0,r0
+  13 0004 A1EB0101 	sub r1,r1,r1
+  14 0008 A2EB0202 	sub r2,r2,r2
+  15 000c A3EB0303 	sub r3,r3,r3
+  16 0010 A4EB0404 	sub r4,r4,r4
+  17 0014 A5EB0505 	sub r5,r5,r5
+  18              	
+  19 0018 0C48     	    ldr r0, =lastchar  @ r1 is end of string
+  20 001a 0078     	    ldrb r0,[r0]    
+  21              	   
+  22 001c 0C49     	    ldr r1, =message  @ r1 is address
+  23 001e 0A78     	    ldrb r2,[r1] @ r2 is value of r1
+  24              	   
+  25 0020 03F16103 	    add r3, r3, #97 @ min value
+  26 0024 04F17A04 	    add r4, r4, #122 @ max value
+  27              	   
+  28 0028 05F10005 	    add r5, r5, #0 @ is shift
+  29              	
+  30              	   
+  31 002c 8242     	loop: cmp r2,r0
+  32 002e 0BD0     	    beq stop @ if end stop
+  33              	   
+  34 0030 9A42     	    cmp r2 , r3 @ if smaller or equal than 97, go to next character
+  35 0032 05DB     	    blt next
+  36              	   
+  37 0034 A242     	    cmp r2 , r4 @ if bigger than 122, go to next character
+  38 0036 03DC     	    bgt next
+  39              	   
+  40 0038 A2F12002 	    sub r2, r2, #32 @ convert lowercase to uppercase
+  41 003c 4A55     	    strb r2,[r1,r5] @ store the uppercase value
+  42              	
+  43              	
+  44 003e FFE7     	    b next
+  45              	
+  46              	next:
+  47 0040 05F10105 	    add r5, r5, #1 @ increment position
+  48 0044 4A5D     	    ldrb r2,[r1, r5] @ load next character
+  49 0046 F1E7     	    b loop
+  50              	
+  51 0048 FEE7     	stop: b stop
+  52 004a 00001500 	.end
+  52      00000000 
+ARM GAS  lab4.s 			page 2
+
+
+  52      0000

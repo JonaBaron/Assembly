@@ -1,0 +1,55 @@
+ARM GAS  dot_product.s 			page 1
+
+
+   1              	.syntax unified
+   2              	.cpu cortex-m4
+   3              	.thumb
+   4              	
+   5 0000 00040020 	.word 0x20000400
+   6 0004 ED000080 	.word 0x800000ed
+   7 0008 00000000 	.space 0xe4
+   7      00000000 
+   7      00000000 
+   7      00000000 
+   7      00000000 
+   8              	
+   9              	.data
+  10 0000 020304   	mick: .byte 2,3,4 
+  11 0003 050607   	keith: .byte 5,6,7  
+  12 0006 00       	dot: .space 0x01
+  13              	
+  14              	.text
+  15              	start:
+  16 00ec 0C48     		ldr r0 , =mick
+  17 00ee 0178     		ldrb r1 , [r0]
+  18              		
+  19 00f0 0C48     		ldr r0 , =mick + 1
+  20 00f2 0278     		ldrb r2 , [r0]
+  21              	
+  22 00f4 0C48     		ldr r0 , =mick + 2
+  23 00f6 0378     		ldrb r3 , [r0]
+  24              	
+  25 00f8 0C48     		ldr r0 , = keith
+  26 00fa 0478     		ldrb r4 , [r0]
+  27              	
+  28 00fc 0C48     		ldr r0 , = keith + 1
+  29 00fe 0578     		ldrb r5 , [r0]
+  30              	
+  31 0100 0C48     		ldr r0 , = keith +2
+  32 0102 0678     		ldrb r6 , [r0]
+  33              	
+  34 0104 01FB04F7 		mul r7 , r1, r4
+  35 0108 02FB05F8 		mul r8 , r2 , r5
+
+  37 0110 07EB080A 		add r10 , r7 ,r8
+  38 0114 CA44     		add r10 , r10 , r9
+  39 0116 0848     		ldr r0 , =dot
+  40 0118 80F800A0 		strb r10 , [r0]
+  41              	
+  42 011c FEE7     	stop: b stop
+  43              	
+  44 011e 00000000 	
+  44      00000100 
+  44      00000200 
+  44      00000300 
+  44      00000400 

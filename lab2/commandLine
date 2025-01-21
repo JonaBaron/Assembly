@@ -1,0 +1,142 @@
+(gdb) target extended-remote localhost:3333
+Remote debugging using localhost:3333
+0x00000000 in ?? ()
+(gdb) monitor reset halt
+Unable to match requested speed 1000 kHz, using 950 kHz
+Unable to match requested speed 1000 kHz, using 950 kHz
+target halted due to debug-request, current mode: Thread 
+xPSR: 0x01000000 pc: 0x800000ec msp: 0x20000400
+(gdb) load
+Loading section .text, size 0x10c lma 0x20000000
+Loading section .data, size 0x3 lma 0x2000010c
+Start address 0x20000000, load size 271
+Transfer rate: 37 KB/sec, 135 bytes/write.
+(gdb) break start
+Breakpoint 1 at 0x200000ec: file add_from_mem.s, line 18.
+(gdb) continue
+Continuing.
+
+Breakpoint 1, start () at add_from_mem.s:18
+18		ldr r0, =mick 
+(gdb) x/3xb &mick
+0x2000010c:	0x01	0x02	0x00
+(gdb) stepi
+halted: PC: 0x200000ee
+19		ldrb r1, [r0] 
+(gdb) disassemble
+Dump of assembler code for function start:
+   0x200000ec <+0>:	ldr	r0, [pc, #16]	; (0x20000100 <stop+4>)
+=> 0x200000ee <+2>:	ldrb	r1, [r0, #0]
+   0x200000f0 <+4>:	ldr	r0, [pc, #16]	; (0x20000104 <stop+8>)
+   0x200000f2 <+6>:	ldrb	r2, [r0, #0]
+   0x200000f4 <+8>:	add.w	r3, r2, r1
+   0x200000f8 <+12>:	ldr	r0, [pc, #12]	; (0x20000108 <stop+12>)
+   0x200000fa <+14>:	strb	r3, [r0, #0]
+End of assembler dump.
+(gdb) x/4xb 0x20000100
+0x20000100 <stop+4>:	0x0c	0x01	0x00	0x20
+(gdb) x/1xb &keith
+0x2000010d:	0x02
+(gdb) x/1xb &result
+0x2000010e:	0x00
+(gdb) stepi
+halted: PC: 0x200000f0
+20		ldr r0, =keith 
+(gdb) stepi
+halted: PC: 0x200000f2
+21		ldrb r2, [r0] 
+(gdb) stepi
+halted: PC: 0x200000f4
+22		add r3, r2, r1 
+(gdb) stepi
+halted: PC: 0x200000f8
+23		ldr r0, =result 
+(gdb) info register
+r0             0x2000010d          536871181
+r1             0x1                 1
+r2             0x2                 2
+r3             0x3                 3
+r4             0x0                 0
+r5             0x0                 0
+r6             0x0                 0
+r7             0x0                 0
+r8             0x0                 0
+r9             0x0                 0
+r10            0x0                 0
+r11            0x0                 0
+r12            0x0                 0
+sp             0x20000400          0x20000400
+lr             0xffffffff          -1
+pc             0x200000f8          0x200000f8 <start+12>
+xPSR           0x41000003          1090519043
+fpscr          0x0                 0
+msp            0x20000400          0x20000400
+psp            0x0                 0x0
+primask        0x0                 0
+basepri        0x0                 0
+faultmask      0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--q
+Quit
+(gdb) stepi
+halted: PC: 0x200000fa
+24		strb r3, [r0] 
+(gdb) info register
+r0             0x2000010e          536871182
+r1             0x1                 1
+r2             0x2                 2
+r3             0x3                 3
+r4             0x0                 0
+r5             0x0                 0
+r6             0x0                 0
+r7             0x0                 0
+r8             0x0                 0
+r9             0x0                 0
+r10            0x0                 0
+r11            0x0                 0
+r12            0x0                 0
+sp             0x20000400          0x20000400
+lr             0xffffffff          -1
+pc             0x200000fa          0x200000fa <start+14>
+xPSR           0x41000003          1090519043
+fpscr          0x0                 0
+msp            0x20000400          0x20000400
+psp            0x0                 0x0
+primask        0x0                 0
+basepri        0x0                 0
+faultmask      0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--q
+Quit
+(gdb) stepi
+halted: PC: 0x200000fc
+stop () at add_from_mem.s:25
+25	stop: b stop
+(gdb) info register
+r0             0x2000010e          536871182
+r1             0x1                 1
+r2             0x2                 2
+r3             0x3                 3
+r4             0x0                 0
+r5             0x0                 0
+r6             0x0                 0
+r7             0x0                 0
+r8             0x0                 0
+r9             0x0                 0
+r10            0x0                 0
+r11            0x0                 0
+r12            0x0                 0
+sp             0x20000400          0x20000400
+lr             0xffffffff          -1
+pc             0x200000fc          0x200000fc <stop>
+xPSR           0x41000003          1090519043
+fpscr          0x0                 0
+msp            0x20000400          0x20000400
+psp            0x0                 0x0
+primask        0x0                 0
+basepri        0x0                 0
+faultmask      0x0                 0
+--Type <RET> for more, q to quit, c to continue without paging--q
+Quit
+(gdb) x/1xb &result
+0x2000010e:	0x03
+
+S
